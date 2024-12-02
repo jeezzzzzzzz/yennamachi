@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Yenna Machi</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+            background-image: url('https://i.imgur.com/8prrHhV.png');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            color: white;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            position: relative;
+        }
+
+        /* Dark overlay to improve visibility */
+        body::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5); /* Dark overlay */
+            z-index: -1;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            text-align: center;
+            text-shadow: 2px 2px 5px #333;
+            margin-top: 20px;
+        }
+
+        .grid-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 20px;
+            width: 80%;
+            max-width: 600px;
+            margin: 20px auto;
+        }
+
+        .card {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            padding: 20px;
+            text-align: center;
+            cursor: pointer;
+            transition: transform 0.3s, background 0.3s;
+        }
+
+        .card:hover {
+            transform: scale(1.1);
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        .card img {
+            width: 70px;
+            height: 70px;
+            margin-bottom: 10px;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+
+        .card-title {
+            font-size: 1.2rem;
+            font-weight: bold;
+        }
+
+        /* Pop-up styling */
+        .popup {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: rgba(0, 0, 0, 0.9);
+            padding: 20px;
+            color: white;
+            text-align: center;
+            border-radius: 10px;
+            display: none;
+            z-index: 1000;
+            width: 90%;
+            max-width: 500px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+        }
+
+        .popup button {
+            margin-top: 10px;
+            padding: 10px 20px;
+            border: none;
+            background: #0078d4;
+            color: white;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .popup button:hover {
+            background: #005bb5;
+        }
+    </style>
+</head>
+<body>
+    <h1>Yenna Machi</h1>
+    <div class="grid-container">
+        <!-- Mood 1: Bored -->
+        <div class="card" onclick="showPopup('bored')">
+            <img src="https://i.imgur.com/rukEwCe.jpeg" alt="Bored">
+            <div class="card-title">Bored</div>
+        </div>
+        <!-- Mood 2: Lonely -->
+        <div class="card" onclick="showPopup('lonely')">
+            <img src="https://i.imgur.com/xnqOLOZ.jpeg" alt="Lonely">
+            <div class="card-title">Lonely</div>
+        </div>
+        <!-- Mood 3: Happy -->
+        <div class="card" onclick="showPopup('happy')">
+            <img src="https://i.imgur.com/4l6jfkj.jpeg" alt="Happy">
+            <div class="card-title">Happy</div>
+        </div>
+        <!-- Mood 4: Confused -->
+        <div class="card" onclick="showPopup('confused')">
+            <img src="https://i.imgur.com/2iUqhAd.jpeg" alt="Confused">
+            <div class="card-title">Confused</div>
+        </div>
+        <!-- Mood 5: Excited -->
+        <div class="card" onclick="showPopup('excited')">
+            <img src="https://i.imgur.com/yicv9Le.jpeg" alt="Excited">
+            <div class="card-title">Excited</div>
+        </div>
+        <!-- Mood 6: Homesick -->
+        <div class="card" onclick="showPopup('homesick')">
+            <img src="https://i.imgur.com/ZVVxUda.png" alt="Homesick">
+            <div class="card-title">Homesick</div>
+        </div>
+        <!-- Mood 7: Proud -->
+        <div class="card" onclick="showPopup('proud')">
+            <img src="https://i.imgur.com/izK436A.jpeg" alt="Proud">
+            <div class="card-title">Proud</div>
+        </div>
+        <!-- Mood 8: Overwhelmed -->
+        <div class="card" onclick="showPopup('overwhelmed')">
+            <img src="https://i.imgur.com/t0w6EqM.jpeg" alt="Overwhelmed">
+            <div class="card-title">Overwhelmed</div>
+        </div>
+        <!-- Mood 9: Hungry -->
+        <div class="card" onclick="showPopup('hungry')">
+            <img src="https://i.imgur.com/E6H1NuL.jpeg" alt="Hungry">
+            <div class="card-title">Hungry</div>
+        </div>
+    </div>
+
+    <!-- Pop-up -->
+    <div class="popup" id="popup">
+        <p id="popup-message"></p>
+        <button onclick="closePopup()">Close</button>
+    </div>
+
+    <script>
+        function showPopup(mood) {
+            const popup = document.getElementById("popup");
+            const message = document.getElementById("popup-message");
+
+            // Mood messages
+            const moodMessages = {
+                bored: `Yenna machi, feeling bored-ah? Seri, let me help you. Take out your phone, find my name, and send me a selfie of your most dramatic ‘Oh no!’ face. If that doesn’t cure your boredom, call me and say "eyy loosu, arivae illaya" and boom you've been connected to the perfect call centre person whose half of the time procrastinating stuff or sleeping like a panda, this person is rated a 3.5 for audio calls but a 4.9 for video call as this person face itself is a joke (ok enough self roast) If this person doesn't pick up, go watch Maari and imagine you as Dhanush and that stupid person as the villain every punch aiyo aha satisfyingggg`,
+                lonely: `Aiyo, feeling lonely in Canada-ah? Just imagine me hugging you like a burrito. I mean you know I am bad at giving hugs but let’s imagine Sejal instead. SEJAL IS CAPABLE OF GIVING BIG FAT HUGS. But if virtual hugs aren’t enough, just remember we are a ring away, always at your service mademoiselle, but I’d still prefer you to go out and try some cool snacks and send me snap for sure!! I wanna see if foreigners have better snacks than pani puriii haha I heard Canada is famous for donuts lemme know if you’ve had any!!`,
+                happy: `Aaha, happiness overload! But wait—did you tell me what’s making you this happy? No? Go record a voice note yelling, ‘Jeeva, I’m living my best life!’ and send it to me. I’ll dance to it, I swear. But even I can’t imagine you doing this so let’s see if you’d do this. Still I’m curious bacha aisa kya hua mujhe bhi batao I wanna see your happy facee!`,
+                confused: `Confusion in Canada? Relax, my friend. Remember, you can always blame it on Celsius vs. Fahrenheit or ‘eh’ vs. ‘hey.’ I found this pun on google didn’t find it so relateable but maybe you may since you’re in there. But when in doubt, call me, and we’ll overanalyze everything together. Bonus: I’ll make random monkey faces to lighten the mood.`,
+                excited: `Whoohoo, excitement level 100! YAAAAYYYYY!!! SLAYYYYY!!! I think this pop up is something you’d never open coz we never get too excited and even if we do there’s no chance even I’ll remember to see this pop up hehehhe, however, I am so happy for you and chill and enjoy this moment to the fullest!! And ahem you know the protocols (call me)`,
+                homesick: `Feeling homesick, huh? Close your eyes and imagine me telling you random stories dramatically in a public place like I always do. Then make chai (not tea—CHAI), watch a good k-drama I’ll send you suggestions hehe, and pretend I’m sitting next to you commenting on every scene. You’re never alone, da.`,
+                proud: `Ahh, proud moment alert! Remember, every win of yours is MY win because you’re basically a reflection of my awesomeness. Kidding (or am I?). Keep smashing it there, and don’t forget to send me a selfie with your ‘I did it!’ face! LOVE YOU SO MUCHH`,
+                overwhelmed: `Too much happening? Seri, take a deep breath. Imagine me rolling my eyes and saying, ‘Eh, one thing at a time, bro.’ You got this. If all else fails, go find a cute dog, tell it your problems, and let it cheer you up with its tail-wagging wisdom. DOGS ARE THE BEST PSYCHIATRIST. PERIODT.`,
+                hungry: `Hungry-ah? Don’t worry, Canada is the land of poutine and butter tarts. Send me your location and lemme see if I have my service skills worldwide by helping you search a tasty shop. But if you’re missing Indian food, call me. I’ll order the most ridiculous item on Zomato and send you a pic to remind you what you’re missing. Suffering together = bonding.`
+            };
+
+            // Set the popup message
+            message.textContent = moodMessages[mood];
+
+            // Display the popup
+            popup.style.display = "block";
+        }
+
+        function closePopup() {
+            document.getElementById("popup").style.display = "none";
+        }
+    </script>
+</body>
+</html>
